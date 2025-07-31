@@ -24,4 +24,17 @@ test.describe('Login Feature', () => {
     await expect(page).toHaveURL(/.account/); 
   });
 
+  test('should display an error message with an invalid password', async ({ page }) => {  
+    // 1\. Find and fill the inputs with a wrong password  
+    await page.locator('#email').fill('Teszt123@gmail.com');  
+    await page.locator('#password').fill('InvalidPassword');
+
+    // 3\. Find the login button and click it  
+    await page.getByRole('button', {name: 'Login'}).click();
+
+    // 3\. Assert that an error message is now visible  
+    const errorMessage = page.locator('.alert .help-block'); 
+    await expect(errorMessage).toBeVisible();  
+    await expect(errorMessage).toContainText('Invalid email or password');  
+  });
 });

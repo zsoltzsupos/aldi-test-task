@@ -18,3 +18,19 @@
   1. A success message should appear after clicking the "Add" button and the button change their color.  
   2. The selected product ("Bananas") should be visible in the shopping list.  
   3. The total item count on the shopping list should update correctly.
+
+**Test Case 2: Attempt to add a product without being logged in (Negative Scenario)**
+
+* **Test Case ID:** TC-002  
+* **Title:** Verify a non-logged-in user is prompted to log in when attempting to add a product to a shopping list.  
+* **Priority:** High  
+* **Preconditions:**  
+  1. The user is not logged into an account.  
+  2. The user is browsing the new.aldi.us website.  
+* **Test Steps:**  
+  1. Navigate to the ALDI US homepage.  
+  2. Browse or search for any product.  
+  3. On the product details page or listing, click the "Add" button (shopping cart icon on the left side).  
+* **Expected Results:**  
+  1. The user should be redirected to the login/signup page.    
+  3. The product should **not** be added to any list at this stage.

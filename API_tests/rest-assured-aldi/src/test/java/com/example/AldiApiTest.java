@@ -29,7 +29,7 @@ public class UserApiTests {
     void testCreateNewTask() {
         // --- Test Data ---
         // Create a task object to send as the request body.
-        Task newTask = new Task("Learn REST-assured", "Complete the API testing assignment.", false);
+        Task newTask = new Task("TASK3 REST-assured", "Complete the API testing assignment.", false);
 
         // --- API Request and Validation ---
         createdTaskId = given()
@@ -52,6 +52,29 @@ public class UserApiTests {
             .body("title", equalTo(newTask.getTitle()))
             .body("completed", equalTo(false))
             .extract().path("id"); // Extract the ID from the response for the next tests
+    }
+
+    @Test
+    @Order(2)
+    @DisplayName("GET /tasks/{id} - Should retrieve an existing task")
+    void testRetrieveTaskById() {
+        given()
+            .log().all()
+            .pathParam("id", createdTaskId) // Use the ID from the created task
+
+        .when()
+            .get("/{id}") // Send GET request to /tasks/{id}
+
+        .then()
+            .log().all()
+            // --- Expected Status Code ---
+            // A successful retrieval should return 200 OK.
+            .assertThat().statusCode(200)
+
+            // --- Expected Response Body ---
+            // The response should match the data of the task we created.
+            .body("id", equalTo(createdTaskId))
+            .body("title", equalTo("TASK3 REST-assured"));
     }
 }
 

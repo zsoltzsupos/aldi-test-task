@@ -106,5 +106,37 @@ public class UserApiTests {
             .body("description", equalTo(updatedTask.getDescription()))
             .body("completed", equalTo(true));
     }
+
+    @Test
+    @Order(4)
+    @DisplayName("DELETE /tasks/{id} - Should delete an existing task")
+    void testDeleteTask() {
+        // --- Delete the task ---
+        given()
+            .log().all()
+            .pathParam("id", createdTaskId) // Identify which task to delete
+
+        .when()
+            .delete("/{id}") // Send DELETE request to /tasks/{id}
+
+        .then()
+            .log().all()
+            // --- Expected Status Code ---
+            // A successful deletion with no content to return should result in 204 No Content.
+            .assertThat().statusCode(204);
+
+        // --- Verification Step ---
+        // To confirm deletion, try to GET the same task again and expect it to be gone.
+        given()
+            .log().all()
+            .pathParam("id", createdTaskId)
+        .when()
+            .get("/{id}")
+        .then()
+            .log().all()
+            // --- Expected Status Code ---
+            // A request for a non-existent resource should return 404 Not Found.
+            .assertThat().statusCode(404);
+    }
 }
 

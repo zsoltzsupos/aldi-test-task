@@ -76,5 +76,35 @@ public class UserApiTests {
             .body("id", equalTo(createdTaskId))
             .body("title", equalTo("TASK3 REST-assured"));
     }
+
+    @Test
+    @Order(3)
+    @DisplayName("PUT /tasks/{id} - Should update an existing task")
+    void testUpdateTask() {
+        // --- Test Data for Update ---
+        Task updatedTask = new Task("Master REST-assured", "Completed assignment and created a full test suite.", true);
+
+        given()
+            .log().all()
+            .contentType(ContentType.JSON)
+            .pathParam("id", createdTaskId) // Identify which task to update
+            .body(updatedTask) // Provide the updated task data
+
+        .when()
+            .put("/{id}") // Send PUT request to /tasks/{id}
+
+        .then()
+            .log().all()
+            // --- Expected Status Code ---
+            // A successful update should return 200 OK.
+            .assertThat().statusCode(200)
+
+            // --- Expected Response Body ---
+            // The response should contain the fully updated resource.
+            .body("id", equalTo(createdTaskId))
+            .body("title", equalTo(updatedTask.getTitle()))
+            .body("description", equalTo(updatedTask.getDescription()))
+            .body("completed", equalTo(true));
+    }
 }
 
